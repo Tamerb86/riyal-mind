@@ -1,13 +1,19 @@
 import Stripe from "stripe"
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error("STRIPE_SECRET_KEY is not set in environment variables")
+// تهيئة Stripe فقط إذا كان المفتاح موجوداً
+// هذا يسمح بالبناء بدون المتغيرات البيئية
+const getStripe = () => {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.warn("STRIPE_SECRET_KEY is not set. Stripe features will be disabled.")
+    return null
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2025-11-17.clover",
+    typescript: true,
+  })
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-11-17.clover",
-  typescript: true,
-})
+export const stripe = getStripe()
 
 // معرفات الأسعار من Stripe
 export const STRIPE_PLANS = {

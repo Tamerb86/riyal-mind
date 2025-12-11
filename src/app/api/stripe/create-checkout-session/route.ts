@@ -4,6 +4,14 @@ import { stripe, STRIPE_PLANS } from "@/lib/stripe"
 
 export async function POST(req: NextRequest) {
   try {
+    // التحقق من وجود Stripe
+    if (!stripe) {
+      return NextResponse.json(
+        { error: "Stripe is not configured. Please contact support." },
+        { status: 503 }
+      )
+    }
+
     const session = await auth()
     
     if (!session?.user?.id || !session?.user?.email) {
