@@ -5,32 +5,32 @@ export default function Comparison() {
     {
       feature: "تتبع المصاريف",
       traditional: "دفتر ورقي أو Excel معقد",
-      rialmind: "تسجيل سريع في ثوانٍ"
+      riyalmind: "تسجيل سريع في ثوانٍ"
     },
     {
       feature: "التقارير",
       traditional: "حسابات يدوية مملة",
-      rialmind: "رسوم بيانية تلقائية"
+      riyalmind: "رسوم بيانية تلقائية"
     },
     {
       feature: "الإشعارات",
       traditional: "لا توجد تنبيهات",
-      rialmind: "تنبيهات ذكية فورية"
+      riyalmind: "تنبيهات ذكية فورية"
     },
     {
       feature: "الحساب العائلي",
       traditional: "صعب التنسيق",
-      rialmind: "مشاركة سهلة ومنظمة"
+      riyalmind: "مشاركة سهلة ومنظمة"
     },
     {
       feature: "الأمان",
       traditional: "معرض للفقدان",
-      rialmind: "محمي ومشفر بالكامل"
+      riyalmind: "محمي ومشفر بالكامل"
     },
     {
       feature: "الوصول",
       traditional: "مكان واحد فقط",
-      rialmind: "من أي مكان وأي جهاز"
+      riyalmind: "من أي مكان وأي جهاز"
     }
   ]
 
@@ -79,7 +79,7 @@ export default function Comparison() {
               </div>
               <div className="flex items-center gap-3 text-gray-900">
                 <Check className="w-5 h-5 text-green-600 flex-shrink-0" />
-                <span className="text-sm font-medium">{item.rialmind}</span>
+                <span className="text-sm font-medium">{item.riyalmind}</span>
               </div>
             </div>
           ))}

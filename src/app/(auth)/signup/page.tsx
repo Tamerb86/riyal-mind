@@ -164,7 +164,7 @@ function SignUpForm() {
             transition={{ delay: 0.3 }}
             className="text-4xl font-bold bg-gradient-to-r from-emerald-700 to-amber-600 bg-clip-text text-transparent mb-2"
           >
-            انضم إلى Rial Mind
+            انضم إلى Riyal Mind
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}

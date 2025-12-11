@@ -167,7 +167,7 @@ export default function TermsOfServicePage() {
                 إذا كان لديك أي أسئلة حول هذه الشروط، يرجى التواصل معنا:
               </p>
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
-                <p className="text-gray-700"><strong>البريد الإلكتروني:</strong> legal@rialmind.com</p>
+                <p className="text-gray-700"><strong>البريد الإلكتروني:</strong> legal@riyalmind.com</p>
                 <p className="text-gray-700"><strong>الهاتف:</strong> +966 50 123 4567</p>
                 <p className="text-gray-700"><strong>الشركة:</strong> Nexify CRM Systems LLC</p>
               </div>

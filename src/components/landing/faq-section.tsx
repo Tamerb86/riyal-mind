@@ -84,7 +84,7 @@ export default function FAQSection() {
             لديك سؤال آخر؟
           </p>
           <a
-            href="mailto:support@rialmind.com"
+            href="mailto:support@riyalmind.com"
             className="inline-block text-green-600 font-bold hover:text-green-700 transition-colors"
           >
             تواصل معنا →

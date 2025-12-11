@@ -36,7 +36,7 @@ export const {
           pass: process.env.RESEND_API_KEY || "",
         },
       },
-      from: process.env.RESEND_EMAIL_FROM || "noreply@rialmind.com",
+      from: process.env.RESEND_EMAIL_FROM || "noreply@riyalmind.com",
       // Custom sendVerificationRequest for better email design
       async sendVerificationRequest({ identifier: email, url, provider }) {
         if (!resend) {
@@ -46,7 +46,7 @@ export const {
         
         try {
           await resend.emails.send({
-            from: provider.from || "noreply@rialmind.com",
+            from: provider.from || "noreply@riyalmind.com",
             to: email,
             subject: "تسجيل الدخول إلى ريال مايند | Sign in to Riyal Mind",
             html: `

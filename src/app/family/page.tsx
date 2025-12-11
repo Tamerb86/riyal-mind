@@ -128,7 +128,7 @@ export default function FamilyPage() {
   }
 
   const handleCopyInviteLink = () => {
-    navigator.clipboard.writeText("https://rialmind.app/invite/ABC123XYZ")
+    navigator.clipboard.writeText("https://riyalmind.app/invite/ABC123XYZ")
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -382,7 +382,7 @@ export default function FamilyPage() {
                     <div className="flex gap-2">
                       <input
                         type="text"
-                        value="https://rialmind.app/invite/ABC123"
+                        value="https://riyalmind.app/invite/ABC123"
                         readOnly
                         className="flex-1 px-3 py-2 bg-emerald-50 border border-emerald-200 rounded-lg text-sm text-emerald-700"
                       />

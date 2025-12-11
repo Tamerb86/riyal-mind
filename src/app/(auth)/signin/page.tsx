@@ -157,7 +157,7 @@ function SignInForm() {
             transition={{ delay: 0.3 }}
             className="text-4xl font-bold bg-gradient-to-r from-emerald-700 to-amber-600 bg-clip-text text-transparent mb-2"
           >
-            مرحباً بك في Rial Mind
+            مرحباً بك في Riyal Mind
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}

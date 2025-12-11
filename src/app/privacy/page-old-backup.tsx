@@ -143,7 +143,7 @@ export default function PrivacyPolicyPage() {
                 إذا كان لديك أي أسئلة أو مخاوف بشأن سياسة الخصوصية أو ممارساتنا، يرجى التواصل معنا:
               </p>
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
-                <p className="text-gray-700"><strong>البريد الإلكتروني:</strong> privacy@rialmind.com</p>
+                <p className="text-gray-700"><strong>البريد الإلكتروني:</strong> privacy@riyalmind.com</p>
                 <p className="text-gray-700"><strong>الهاتف:</strong> +966 50 123 4567</p>
                 <p className="text-gray-700"><strong>العنوان:</strong> Nexify CRM Systems LLC</p>
               </div>

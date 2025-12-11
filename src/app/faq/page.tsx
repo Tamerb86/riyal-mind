@@ -143,7 +143,7 @@ export default function FAQPage() {
             فريق الدعم الفني جاهز لمساعدتك على مدار الساعة
           </p>
           <a
-            href="mailto:support@rialmind.com"
+            href="mailto:support@riyalmind.com"
             className="inline-block bg-white text-green-600 px-8 py-3 rounded-xl font-bold hover:bg-gray-50 transition-all"
           >
             تواصل معنا

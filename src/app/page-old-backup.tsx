@@ -292,7 +292,7 @@ export default function HomePage() {
             <div>
               <h5 className="text-white font-bold mb-4">تواصل معنا</h5>
               <ul className="space-y-2 text-sm">
-                <li>support@rialmind.com</li>
+                <li>support@riyalmind.com</li>
                 <li>+966 50 123 4567</li>
               </ul>
             </div>
