@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
+/* إضافات RTL للعربية */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .flex-row {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .space-x-reverse > * + * {
+  margin-right: var(--tw-space-x-reverse);
+  margin-left: 0;
+}
+
+/* تحسين الخطوط العربية */
+body {
+  font-feature-settings: "kern" 1, "liga" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ألوان ريال مايند */
+:root {
+  --riyal-primary: 16 185 129; /* أخضر زمردي */
+  --riyal-secondary: 99 102 241; /* بنفسجي */
+  --riyal-danger: 239 68 68; /* أحمر */
+  --riyal-warning: 245 158 11; /* برتقالي */
+  --riyal-success: 34 197 94; /* أخضر */
+}
+
+.bg-riyal-primary {
+  background-color: rgb(var(--riyal-primary));
+}
+
+.text-riyal-primary {
+  color: rgb(var(--riyal-primary));
+}
+
+.border-riyal-primary {
+  border-color: rgb(var(--riyal-primary));
+}
+
+/* تحسين الأزرار */
+.btn-primary {
+  @apply bg-riyal-primary text-white px-6 py-3 rounded-lg font-semibold 
+         hover:opacity-90 transition-all duration-200 shadow-lg;
+}
+
+/* بطاقات محسنة */
+.card-riyal {
+  @apply bg-white rounded-xl shadow-md p-6 border border-gray-100 
+         hover:shadow-lg transition-shadow duration-200;
+}
+
+/* إصلاح عرض select و options */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  color: #000 !important;
+  background-color: #fff !important;
+}
+
+select option {
+  color: #000 !important;
+  background-color: #fff !important;
+  padding: 8px 12px !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+}
+
+/* إصلاح خاص لمتصفحات الكمبيوتر */
+@media (min-width: 768px) {
+  select option {
+    color: #000000 !important;
+    background: white !important;
+    padding: 10px !important;
+    min-height: 40px !important;
+  }
+}

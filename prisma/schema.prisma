@@ -1,0 +1,373 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OccasionType {
+  BIRTHDAY
+  WEDDING
+  GRADUATION
+  HOLIDAY
+  OTHER
+}
+
+enum NotificationType {
+  EXPENSE_ADDED
+  BUDGET_ALERT
+  GOAL_PROGRESS
+  FAMILY_INVITE
+  REPORT_READY
+  OTHER
+}
+
+enum FamilyRole {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+enum IncomeType {
+  PRIMARY      // دخل أساسي (راتب)
+  SECONDARY    // دخل جانبي (عمل حر، استثمار...)
+  SHARED       // دخل مشترك للعائلة/الأصدقاء
+}
+
+model Account {
+  id                            String      @id @default(cuid())
+  userId                        String      @map("user_id")
+  type                          String
+  provider                      String
+  providerAccountId             String      @map("provider_account_id")
+  refresh_token                 String?     @db.Text
+  access_token                  String?     @db.Text
+  expires_at                    Int?
+  token_type                    String?
+  scope                         String?
+  id_token                      String?     @db.Text
+  session_state                 String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id                            String      @id @default(cuid())
+  sessionToken                  String      @unique @map("session_token")
+  userId                        String      @map("user_id")
+  expires                       DateTime
+  user                          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id                            String              @id @default(cuid())
+  name                          String?
+  surname                       String?
+  username                      String?             @unique
+  email                         String?             @unique
+  emailVerified                 DateTime?           @map("email_verified")
+  emailVerificationToken        String?             @unique @map("email_verification_token")
+  passwordHash                  String?             @map("password_hash")
+  resetPasswordToken            String?             @unique @map("reset_password_token")
+  resetPasswordTokenExpiry      DateTime?           @map("reset_password_token_expiery")
+  image                         String?
+  createdAt                     DateTime            @default(now()) @map("created_at")
+  role                          Role                @default(USER)
+  
+  // New fields for Rial Mind
+  currency                      String              @default("SAR")
+  language                      String              @default("ar")
+  phone                         String?
+  emailNotifications            Boolean             @default(true) @map("email_notifications")
+  pushNotifications             Boolean             @default(true) @map("push_notifications")
+  budgetAlerts                  Boolean             @default(true) @map("budget_alerts")
+  reportNotifications           Boolean             @default(true) @map("report_notifications")
+  
+  // Stripe fields
+  stripeCustomerId              String?             @unique @map("stripe_customer_id")
+  stripeSubscriptionId          String?             @unique @map("stripe_subscription_id")
+  subscriptionStatus            String?             @map("subscription_status")
+  subscriptionPlan              String?             @map("subscription_plan")
+  subscriptionEndsAt            DateTime?           @map("subscription_ends_at")
+  trialEndsAt                   DateTime?           @map("trial_ends_at")
+  hasUsedTrial                  Boolean             @default(false) @map("has_used_trial")
+  
+  accounts                      Account[]
+  sessions                      Session[]
+  expenses                      Expense[]
+  incomes                       Income[]
+  budgets                       Budget[]
+  goals                         Goal[]
+  occasions                     Occasion[]
+  familyMembers                 FamilyMember[]      @relation("UserFamilyMembers")
+  familyMemberships             FamilyMember[]      @relation("MemberUser")
+  familyInvites                 FamilyInvite[]
+  notifications                 Notification[]
+
+  @@map("users")
+}
+
+model Expense {
+  id                            String      @id @default(cuid())
+  userId                        String      @map("user_id")
+  categoryId                    Int         @map("category_id")
+  amount                        Float
+  description                   String?
+  date                          DateTime    @default(now())
+  receipt                       String?
+  notes                         String?     @db.Text
+  createdAt                     DateTime    @default(now()) @map("created_at")
+  updatedAt                     DateTime    @updatedAt @map("updated_at")
+  
+  user                          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([date])
+  @@index([categoryId])
+  @@map("expenses")
+}
+
+model Income {
+  id                            String      @id @default(cuid())
+  userId                        String      @map("user_id")
+  amount                        Float
+  description                   String?
+  source                        String?     // مصدر الدخل (راتب، عمل حر، استثمار، إلخ)
+  type                          IncomeType  @default(PRIMARY) // نوع الدخل
+  groupId                       String?     @map("group_id") // للدخل المشترك
+  date                          DateTime    @default(now())
+  createdAt                     DateTime    @default(now()) @map("created_at")
+  updatedAt                     DateTime    @updatedAt @map("updated_at")
+  
+  user                          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  group                         Group?      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([date])
+  @@index([type])
+  @@index([groupId])
+  @@map("incomes")
+}
+
+model Budget {
+  id                            String      @id @default(cuid())
+  userId                        String      @map("user_id")
+  categoryId                    Int         @map("category_id")
+  monthlyAmount                 Float       @map("monthly_amount")
+  createdAt                     DateTime    @default(now()) @map("created_at")
+  updatedAt                     DateTime    @updatedAt @map("updated_at")
+  
+  user                          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, categoryId])
+  @@index([userId])
+  @@map("budgets")
+}
+
+model Goal {
+  id                            String      @id @default(cuid())
+  userId                        String      @map("user_id")
+  name                          String
+  targetAmount                  Float       @map("target_amount")
+  currentAmount                 Float       @default(0) @map("current_amount")
+  deadline                      DateTime?
+  icon                          String?
+  category                      String?
+  description                   String?     @db.Text
+  createdAt                     DateTime    @default(now()) @map("created_at")
+  updatedAt                     DateTime    @updatedAt @map("updated_at")
+  
+  user                          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@map("goals")
+}
+
+model Occasion {
+  id                            String          @id @default(cuid())
+  userId                        String          @map("user_id")
+  name                          String
+  type                          OccasionType
+  date                          DateTime
+  budget                        Float?
+  spent                         Float           @default(0)
+  icon                          String?
+  description                   String?         @db.Text
+  createdAt                     DateTime        @default(now()) @map("created_at")
+  updatedAt                     DateTime        @updatedAt @map("updated_at")
+  
+  user                          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([date])
+  @@map("occasions")
+}
+
+model FamilyMember {
+  id                            String          @id @default(cuid())
+  userId                        String          @map("user_id")
+  memberId                      String          @map("member_id")
+  role                          FamilyRole      @default(MEMBER)
+  createdAt                     DateTime        @default(now()) @map("created_at")
+  updatedAt                     DateTime        @updatedAt @map("updated_at")
+  
+  user                          User            @relation("UserFamilyMembers", fields: [userId], references: [id], onDelete: Cascade)
+  member                        User            @relation("MemberUser", fields: [memberId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, memberId])
+  @@index([userId])
+  @@index([memberId])
+  @@map("family_members")
+}
+
+model FamilyInvite {
+  id                            String          @id @default(cuid())
+  userId                        String          @map("user_id")
+  inviteeEmail                  String          @map("invitee_email")
+  role                          FamilyRole      @default(MEMBER)
+  inviteToken                   String          @unique @map("invite_token")
+  expiresAt                     DateTime        @map("expires_at")
+  accepted                      Boolean         @default(false)
+  createdAt                     DateTime        @default(now()) @map("created_at")
+  
+  user                          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([inviteToken])
+  @@map("family_invites")
+}
+
+model Notification {
+  id                            String              @id @default(cuid())
+  userId                        String              @map("user_id")
+  type                          NotificationType
+  title                         String
+  description                   String?             @db.Text
+  read                          Boolean             @default(false)
+  data                          Json?
+  createdAt                     DateTime            @default(now()) @map("created_at")
+  
+  user                          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([read])
+  @@map("notifications")
+}
+
+model VerificationToken {
+  identifier                    String
+  token                         String      @unique
+  expires                       DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model NewsletterSubscriber {
+  id                            String      @id @default(cuid())
+  email                         String      @unique 
+  createdAt                     DateTime    @default(now()) @map("created_at")
+
+  @@map("newsletter_subscribers")
+}
+
+model Group {
+  id                            String          @id @default(cuid())
+  name                          String
+  description                   String?         @db.Text
+  type                          String          @default("family") // family, friends, roommates
+  createdById                   String          @map("created_by_id")
+  createdAt                     DateTime        @default(now()) @map("created_at")
+  updatedAt                     DateTime        @updatedAt @map("updated_at")
+  
+  members                       GroupMember[]
+  expenses                      GroupExpense[]
+  settlements                   Settlement[]
+  incomes                       Income[]        // الدخل المشترك للمجموعة
+  
+  @@map("groups")
+}
+
+model GroupMember {
+  id                            String          @id @default(cuid())
+  groupId                       String          @map("group_id")
+  userId                        String          @map("user_id")
+  role                          String          @default("member") // admin, member
+  sharePercentage               Float           @default(0) @map("share_percentage")
+  joinedAt                      DateTime        @default(now()) @map("joined_at")
+  
+  group                         Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  
+  @@unique([groupId, userId])
+  @@index([groupId])
+  @@index([userId])
+  @@map("group_members")
+}
+
+model GroupExpense {
+  id                            String          @id @default(cuid())
+  groupId                       String          @map("group_id")
+  paidById                      String          @map("paid_by_id")
+  amount                        Float
+  description                   String?
+  category                      String?
+  date                          DateTime        @default(now())
+  splitType                     String          @default("equal") // equal, percentage, custom
+  createdAt                     DateTime        @default(now()) @map("created_at")
+  updatedAt                     DateTime        @updatedAt @map("updated_at")
+  
+  group                         Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  splits                        ExpenseSplit[]
+  
+  @@index([groupId])
+  @@index([paidById])
+  @@index([date])
+  @@map("group_expenses")
+}
+
+model ExpenseSplit {
+  id                            String          @id @default(cuid())
+  expenseId                     String          @map("expense_id")
+  userId                        String          @map("user_id")
+  amount                        Float
+  paid                          Boolean         @default(false)
+  
+  expense                       GroupExpense    @relation(fields: [expenseId], references: [id], onDelete: Cascade)
+  
+  @@index([expenseId])
+  @@index([userId])
+  @@map("expense_splits")
+}
+
+model Settlement {
+  id                            String          @id @default(cuid())
+  groupId                       String          @map("group_id")
+  fromUserId                    String          @map("from_user_id")
+  toUserId                      String          @map("to_user_id")
+  amount                        Float
+  settled                       Boolean         @default(false)
+  settledAt                     DateTime?       @map("settled_at")
+  createdAt                     DateTime        @default(now()) @map("created_at")
+  
+  group                         Group           @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  
+  @@index([groupId])
+  @@index([fromUserId])
+  @@index([toUserId])
+  @@map("settlements")
+}
