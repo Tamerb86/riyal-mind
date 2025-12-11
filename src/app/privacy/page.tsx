@@ -24,13 +24,6 @@ export default function PrivacyPolicyPage() {
 
       {/* المحتوى */}
       <main className="max-w-5xl mx-auto px-4 py-12">
-        {/* تنبيه قانوني */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-amber-800">
-            <strong>ملاحظة هامة:</strong> هذه الوثيقة مسودة أولية. يجب مراجعتها من قبل مستشار قانوني متخصص قبل النشر.
-          </div>
-        </div>
 
         <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-emerald-100 p-8 md:p-12">
           {/* مقدمة */}
