@@ -108,7 +108,7 @@ function SignUpForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-amber-50 p-4 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 p-4 relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -121,7 +121,7 @@ function SignUpForm() {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-emerald-200/20 to-transparent rounded-full blur-3xl"
+          className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-emerald-100/10 to-transparent rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -133,7 +133,7 @@ function SignUpForm() {
             repeat: Infinity,
             ease: "linear"
           }}
-          className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tr from-amber-200/20 to-transparent rounded-full blur-3xl"
+          className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-gradient-to-tr from-blue-100/10 to-transparent rounded-full blur-3xl"
         />
       </div>
 
@@ -149,12 +149,12 @@ function SignUpForm() {
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-emerald-500 to-amber-500 mb-4 shadow-2xl relative"
+            className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 mb-4 shadow-xl relative"
           >
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-amber-400 opacity-50 blur-md"
+              className="absolute inset-0 rounded-full bg-gradient-to-r from-emerald-400 to-teal-400 opacity-30 blur-md"
             />
             <User className="w-10 h-10 text-white relative z-10" />
           </motion.div>
@@ -162,7 +162,7 @@ function SignUpForm() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-4xl font-bold bg-gradient-to-r from-emerald-700 to-amber-600 bg-clip-text text-transparent mb-2"
+            className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2"
           >
             انضم إلى Riyal Mind
           </motion.h1>
@@ -170,7 +170,7 @@ function SignUpForm() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-emerald-600 flex items-center justify-center gap-2"
+            className="text-slate-600 flex items-center justify-center gap-2"
           >
             <Shield className="w-4 h-4" />
             أنشئ حسابك وابدأ في إدارة مصاريفك
@@ -183,7 +183,7 @@ function SignUpForm() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3 }}
           whileHover={{ scale: 1.01 }}
-          className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-emerald-100/50 p-8 relative overflow-hidden"
+          className="bg-white/95 backdrop-blur-xl rounded-3xl shadow-xl border border-slate-200/50 p-8 relative overflow-hidden"
         >
           {/* Card Glow Effect */}
           <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-amber-500/5 pointer-events-none" />
